@@ -13,11 +13,14 @@ const Index = () => {
       {/* Main content */}
       <div className="relative z-10 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-primary bg-clip-text text-transparent">
-            SecureAuth
+          <h1 className="text-5xl font-bold mb-2 bg-gradient-quantum bg-clip-text text-transparent">
+            QuantumCloud
           </h1>
-          <p className="text-muted-foreground">
-            Your secure gateway to digital excellence
+          <p className="text-accent-cyan font-medium text-lg">
+            Next-Gen Quantum Computing Services
+          </p>
+          <p className="text-muted-foreground text-sm mt-2">
+            Harness the power of quantum algorithms for your business
           </p>
         </div>
         
@@ -25,7 +28,8 @@ const Index = () => {
         
         {/* Footer */}
         <div className="mt-8 text-center text-xs text-muted-foreground">
-          <p>© 2024 SecureAuth. All rights reserved.</p>
+          <p>© 2024 QuantumCloud Technologies. All rights reserved.</p>
+          <p className="mt-1 text-accent-cyan">Powered by Quantum Computing</p>
         </div>
       </div>
     </div>

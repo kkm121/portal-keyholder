@@ -19,11 +19,11 @@ export const LoginForm = () => {
   return (
     <Card className="w-full max-w-md mx-auto bg-glass backdrop-blur-xl border-glass shadow-elegant">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-          Welcome Back
+        <CardTitle className="text-2xl font-bold bg-gradient-quantum bg-clip-text text-transparent">
+          Access Quantum Portal
         </CardTitle>
-        <CardDescription className="text-muted-foreground">
-          Sign in to your account to continue
+        <CardDescription className="text-accent-cyan">
+          Enter your credentials to access quantum services
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -40,7 +40,7 @@ export const LoginForm = () => {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-10 bg-secondary/50 border-glass backdrop-blur-sm transition-smooth focus:shadow-glow"
+                className="pl-10 bg-secondary/50 border-glass backdrop-blur-sm transition-smooth focus:shadow-quantum"
                 required
               />
             </div>
@@ -58,7 +58,7 @@ export const LoginForm = () => {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-10 pr-10 bg-secondary/50 border-glass backdrop-blur-sm transition-smooth focus:shadow-glow"
+                className="pl-10 pr-10 bg-secondary/50 border-glass backdrop-blur-sm transition-smooth focus:shadow-quantum"
                 required
               />
               <button
@@ -93,9 +93,9 @@ export const LoginForm = () => {
           <Button
             type="submit"
             variant="primary"
-            className="w-full"
+            className="w-full bg-gradient-quantum shadow-quantum hover:shadow-neon transition-all duration-300"
           >
-            Sign In
+            Access Quantum Portal
           </Button>
         </form>
 
@@ -142,12 +142,20 @@ export const LoginForm = () => {
           </Button>
         </div>
 
-        <p className="text-center text-sm text-muted-foreground">
-          Don't have an account?{" "}
-          <button className="text-primary hover:text-primary-glow transition-smooth font-medium">
-            Sign up
-          </button>
-        </p>
+        <div className="space-y-4">
+          <p className="text-center text-sm text-muted-foreground">
+            Don't have an account?{" "}
+            <button className="text-accent-cyan hover:text-accent-neon transition-smooth font-medium">
+              Sign up for Quantum Services
+            </button>
+          </p>
+          
+          <div className="text-center">
+            <button className="text-accent-neon hover:text-primary transition-smooth font-medium text-sm">
+              View Service Plans →
+            </button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

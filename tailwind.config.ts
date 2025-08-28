@@ -29,6 +29,8 @@ export default {
 					foreground: 'hsl(var(--primary-foreground))',
 					glow: 'hsl(var(--primary-glow))'
 				},
+				'accent-cyan': 'hsl(var(--accent-cyan))',
+				'accent-neon': 'hsl(var(--accent-neon))',
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'
@@ -67,7 +69,9 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-background': 'var(--gradient-background)',
-				'gradient-card': 'var(--gradient-card)'
+				'gradient-card': 'var(--gradient-card)',
+				'gradient-quantum': 'var(--gradient-quantum)',
+				'gradient-neon': 'var(--gradient-neon)'
 			},
 			backgroundColor: {
 				'glass': 'var(--glass-background)'
@@ -77,7 +81,9 @@ export default {
 			},
 			boxShadow: {
 				'glow': 'var(--shadow-glow)',
-				'elegant': 'var(--shadow-elegant)'
+				'elegant': 'var(--shadow-elegant)',
+				'quantum': 'var(--shadow-quantum)',
+				'neon': 'var(--shadow-neon)'
 			},
 			transitionProperty: {
 				'smooth': 'var(--transition-smooth)'

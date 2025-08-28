@@ -17,9 +17,11 @@ All colors MUST be HSL.
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 263 70% 50%;
-    --primary-foreground: 0 0% 98%;
-    --primary-glow: 263 70% 65%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --primary-glow: 180 100% 70%;
+    --accent-cyan: 195 100% 60%;
+    --accent-neon: 158 100% 50%;
 
     --secondary: 240 4% 16%;
     --secondary-foreground: 0 0% 98%;
@@ -39,18 +41,22 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Beautiful gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-background: linear-gradient(135deg, hsl(240 10% 3.9%), hsl(240 8% 6%));
-    --gradient-card: linear-gradient(135deg, hsl(240 8% 8%), hsl(240 6% 12%));
+    /* Quantum gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent-cyan)));
+    --gradient-background: linear-gradient(135deg, hsl(222.2 84% 4.9%), hsl(240 100% 8%));
+    --gradient-card: linear-gradient(135deg, hsl(222.2 84% 6%), hsl(195 100% 12%));
+    --gradient-quantum: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent-neon)), hsl(var(--accent-cyan)));
+    --gradient-neon: linear-gradient(90deg, hsl(var(--accent-neon)), hsl(var(--primary)));
     
     /* Glass morphism */
     --glass-background: hsla(240, 8%, 12%, 0.8);
     --glass-border: hsla(263, 70%, 50%, 0.2);
     
-    /* Shadows */
-    --shadow-glow: 0 0 40px hsla(263, 70%, 50%, 0.3);
-    --shadow-elegant: 0 20px 40px -12px hsla(240, 10%, 3.9%, 0.8);
+    /* Quantum shadows */
+    --shadow-glow: 0 0 60px hsla(180, 100%, 50%, 0.4);
+    --shadow-elegant: 0 20px 40px -12px hsla(222.2, 84%, 4.9%, 0.8);
+    --shadow-quantum: 0 0 80px hsla(180, 100%, 50%, 0.3), 0 0 40px hsla(195, 100%, 60%, 0.2);
+    --shadow-neon: 0 0 20px hsla(158, 100%, 50%, 0.6);
     
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
