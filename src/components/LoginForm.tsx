@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,27 +6,118 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
+import { cleanupAuthState, recordSuccessfulSignIn, SignInProvider } from "@/utils/auth";
+
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const safeGlobalSignOut = async () => {
+    try {
+      await supabase.auth.signOut({ scope: 'global' });
+    } catch (_) {
+      // ignore
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    cleanupAuthState();
+    await safeGlobalSignOut();
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
-    if (error) {
+    if (error || !data.user) {
       toast({
         title: "Login failed",
-        description: error.message,
+        description: error?.message || "Please check your credentials and try again.",
         variant: "destructive",
       });
       return;
     }
+    recordSuccessfulSignIn({
+      userId: data.user.id,
+      email: data.user.email,
+      sessionId: data.session?.access_token ?? null,
+      provider: 'password',
+      at: Date.now(),
+    });
     toast({ title: "Welcome back", description: "You are now signed in." });
-    console.log("Login success:", data.session);
+    window.location.href = "/";
   };
+
+  const handleSignUp = async () => {
+    try {
+      setLoading(true);
+      cleanupAuthState();
+      await safeGlobalSignOut();
+      const redirectUrl = `${window.location.origin}/`;
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: redirectUrl },
+      });
+      if (error) throw error;
+      toast({ title: "Check your email", description: "Confirm your email to complete signup." });
+    } catch (err: any) {
+      toast({ title: "Signup failed", description: err?.message || "Please try again.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOAuth = async (provider: 'google' | 'github') => {
+    try {
+      setLoading(true);
+      cleanupAuthState();
+      await safeGlobalSignOut();
+      const redirectTo = `${window.location.origin}/`;
+      const { error } = await supabase.auth.signInWithOAuth({ provider, options: { redirectTo } });
+      if (error) throw error;
+      toast({ title: "Redirecting...", description: `Continue with ${provider}.` });
+      // Redirect happens automatically by Supabase
+    } catch (err: any) {
+      toast({ title: "OAuth failed", description: err?.message || "Please try again.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      if (!email) {
+        toast({ title: "Enter your email", description: "Provide your email above to reset password." });
+        return;
+      }
+      const redirectTo = `${window.location.origin}/`;
+      const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+      if (error) throw error;
+      toast({ title: "Email sent", description: "Check your inbox to reset password." });
+    } catch (err: any) {
+      toast({ title: "Reset failed", description: err?.message || "Please try again.", variant: "destructive" });
+    }
+  };
+
+  useEffect(() => {
+    // If we already have a session (e.g., after OAuth redirect), record it once
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) return;
+      const recordedId = localStorage.getItem('qc.lastRecordedSession');
+      if (recordedId === session.access_token) return;
+      const providerRaw = (session.user?.app_metadata as any)?.provider as string | undefined;
+      const provider: SignInProvider = providerRaw === 'github' ? 'github' : providerRaw === 'google' ? 'google' : 'password';
+      recordSuccessfulSignIn({
+        userId: session.user.id,
+        email: session.user.email,
+        sessionId: session.access_token,
+        provider,
+        at: Date.now(),
+      });
+      localStorage.setItem('qc.lastRecordedSession', session.access_token);
+    });
+  }, []);
 
   return (
     <Card className="w-full max-w-md mx-auto bg-glass backdrop-blur-xl border-glass shadow-elegant">
@@ -96,6 +187,7 @@ export const LoginForm = () => {
             </div>
             <button
               type="button"
+              onClick={handleResetPassword}
               className="text-sm text-primary hover:text-primary-glow transition-smooth"
             >
               Forgot password?
@@ -121,7 +213,7 @@ export const LoginForm = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <Button variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
+          <Button onClick={() => handleOAuth('google')} variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
@@ -142,7 +234,7 @@ export const LoginForm = () => {
             </svg>
             Google
           </Button>
-          <Button variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
+          <Button onClick={() => handleOAuth('github')} variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
             <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
@@ -157,7 +249,7 @@ export const LoginForm = () => {
         <div className="space-y-4">
           <p className="text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
-            <button className="text-accent-cyan hover:text-accent-neon transition-smooth font-medium">
+            <button onClick={handleSignUp} className="text-accent-cyan hover:text-accent-neon transition-smooth font-medium">
               Sign up for Quantum Services
             </button>
           </p>
