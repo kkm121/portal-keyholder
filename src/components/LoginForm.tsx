@@ -33,8 +33,17 @@ export const LoginForm = () => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error || !data.user) {
-      // Check if it's an email verification error
-      if (error?.message?.includes('email_not_confirmed') || error?.message?.includes('Email not confirmed')) {
+      console.error('Login error:', error);
+      const msg = (error?.message || '').toLowerCase();
+      const code = (error as any)?.code;
+      const status = (error as any)?.status;
+      const isUnconfirmed =
+        code === 'email_not_confirmed' ||
+        msg.includes('email not confirmed') ||
+        msg.includes('not confirmed') ||
+        msg.includes('confirm your email') ||
+        (status === 400 && msg.includes('email') && msg.includes('confirm'));
+      if (isUnconfirmed) {
         setShowVerifyDialog(true);
         return;
       }
@@ -256,7 +265,7 @@ export const LoginForm = () => {
       
       <VerifyEmailDialog
         isOpen={showVerifyDialog}
-        onClose={() => setShowVerifyDialog(false)}
+        onOpenChange={setShowVerifyDialog}
         email={email}
       />
     </Card>

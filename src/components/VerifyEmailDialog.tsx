@@ -7,11 +7,11 @@ import { toast } from "@/hooks/use-toast";
 
 interface VerifyEmailDialogProps {
   isOpen: boolean;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
   email: string;
 }
 
-export const VerifyEmailDialog = ({ isOpen, onClose, email }: VerifyEmailDialogProps) => {
+export const VerifyEmailDialog = ({ isOpen, onOpenChange, email }: VerifyEmailDialogProps) => {
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
@@ -48,7 +48,7 @@ export const VerifyEmailDialog = ({ isOpen, onClose, email }: VerifyEmailDialogP
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="bg-glass backdrop-blur-xl border-glass shadow-elegant max-w-md">
         <DialogHeader className="text-center">
           <div className="mx-auto mb-4 p-3 rounded-full bg-primary/10">
@@ -88,7 +88,7 @@ export const VerifyEmailDialog = ({ isOpen, onClose, email }: VerifyEmailDialogP
           
           <Button
             variant="ghost"
-            onClick={onClose}
+            onClick={() => onOpenChange(false)}
             className="w-full"
           >
             {emailSent ? "Got It" : "I'll Check My Email"}
