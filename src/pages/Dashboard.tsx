@@ -6,6 +6,7 @@ import { User } from "@supabase/supabase-js";
 import { LogOut, User as UserIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cleanupAuthState } from "@/utils/auth";
+import { DynamicBackground } from "@/components/DynamicBackground";
 
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -49,7 +50,8 @@ const Dashboard = () => {
   if (!user) {
     return (
       <div className="min-h-screen bg-gradient-background flex items-center justify-center">
-        <div className="text-center">
+        <DynamicBackground />
+        <div className="relative z-10 text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-muted-foreground">Loading quantum portal...</p>
         </div>
@@ -59,12 +61,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-background">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-primary-glow/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-      </div>
+      <DynamicBackground />
 
       {/* Header */}
       <div className="relative z-10 border-b border-glass">
