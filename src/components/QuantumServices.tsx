@@ -62,87 +62,143 @@ export const QuantumServices = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-6">
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold mb-4 bg-gradient-quantum bg-clip-text text-transparent">
-          Quantum Service Plans
+    <div className="w-full max-w-7xl mx-auto px-6 py-16">
+      {/* Header Section */}
+      <div className="text-center mb-20">
+        <div className="inline-flex items-center justify-center p-2 bg-glass-light border border-glass-light rounded-full mb-6">
+          <span className="text-accent-cyan text-sm font-medium px-4 py-1">
+            Quantum Computing Plans
+          </span>
+        </div>
+        <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-quantum bg-clip-text text-transparent leading-tight">
+          Choose Your<br />Quantum Journey
         </h2>
-        <p className="text-accent-cyan text-lg">
-          Choose the perfect quantum computing plan for your needs
+        <p className="text-muted-foreground text-xl max-w-2xl mx-auto leading-relaxed">
+          Unlock the power of quantum computing with our cutting-edge service plans designed for every scale of innovation
         </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-8">
-        {services.map((service) => {
+      {/* Plans Grid */}
+      <div className="grid lg:grid-cols-3 gap-8 lg:gap-6">
+        {services.map((service, index) => {
           const Icon = service.icon;
+          const isPopular = service.popular;
+          const isFirst = index === 0;
+          const isLast = index === services.length - 1;
+          
           return (
-            <Card
+            <div
               key={service.id}
-              className={`relative bg-glass backdrop-blur-xl border-glass shadow-elegant hover:shadow-quantum transition-all duration-300 ${
-                service.popular ? "border-accent-cyan shadow-quantum" : ""
-              }`}
+              className={`relative group ${isPopular ? 'lg:scale-105 lg:-mt-4' : ''}`}
             >
-              {service.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-gradient-neon text-primary-foreground font-medium px-4 py-1">
-                    Most Popular
-                  </Badge>
-                </div>
-              )}
-              
-              <CardHeader className="text-center pb-4">
-                <div className="mx-auto mb-4 p-3 bg-gradient-primary rounded-full w-fit">
-                  <Icon className="h-8 w-8 text-primary-foreground" />
-                </div>
-                <CardTitle className="text-2xl font-bold text-foreground">
-                  {service.name}
-                </CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  {service.description}
-                </CardDescription>
-                <div className="flex items-baseline justify-center mt-4">
-                  <span className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                    {service.price}
-                  </span>
-                  <span className="text-muted-foreground ml-2">
-                    {service.period}
-                  </span>
-                </div>
-              </CardHeader>
+              <Card
+                className={`relative h-full bg-glass backdrop-blur-2xl border-glass shadow-card hover:shadow-hover transition-all duration-500 overflow-hidden ${
+                  isPopular 
+                    ? "border-accent-cyan shadow-quantum bg-gradient-mesh" 
+                    : "hover:border-glass-light"
+                }`}
+              >
+                {/* Popular Badge */}
+                {isPopular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                    <div className="bg-gradient-quantum px-6 py-2 rounded-full shadow-neon">
+                      <span className="text-background text-sm font-bold">Most Popular</span>
+                    </div>
+                  </div>
+                )}
 
-              <CardContent className="space-y-4">
-                <ul className="space-y-3">
-                  {service.features.map((feature, index) => (
-                    <li key={index} className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-gradient-neon rounded-full flex-shrink-0"></div>
-                      <span className="text-sm text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <CardHeader className="relative z-10 text-center pt-8 pb-6">
+                  {/* Icon */}
+                  <div className="mx-auto mb-6 relative">
+                    <div className={`p-4 rounded-2xl ${
+                      isPopular 
+                        ? "bg-gradient-quantum shadow-neon" 
+                        : "bg-gradient-primary"
+                    } w-fit mx-auto`}>
+                      <Icon className="h-10 w-10 text-primary-foreground" />
+                    </div>
+                  </div>
 
-                <Button
-                  onClick={() => handleSelectPlan(service.id)}
-                  className={`w-full mt-6 transition-all duration-300 ${
-                    service.popular
-                      ? "bg-gradient-quantum shadow-quantum hover:shadow-neon"
-                      : "bg-gradient-primary hover:shadow-glow"
-                  }`}
-                >
-                  <Clock className="mr-2 h-4 w-4" />
-                  Select Plan
-                </Button>
-              </CardContent>
-            </Card>
+                  {/* Plan Name */}
+                  <CardTitle className="text-2xl font-bold text-foreground mb-3">
+                    {service.name}
+                  </CardTitle>
+                  
+                  {/* Description */}
+                  <CardDescription className="text-muted-foreground text-base mb-6 min-h-[48px] flex items-center justify-center">
+                    {service.description}
+                  </CardDescription>
+
+                  {/* Pricing */}
+                  <div className="flex items-baseline justify-center">
+                    <span className={`text-5xl font-bold ${
+                      isPopular 
+                        ? "bg-gradient-quantum bg-clip-text text-transparent" 
+                        : "bg-gradient-primary bg-clip-text text-transparent"
+                    }`}>
+                      {service.price}
+                    </span>
+                    <span className="text-muted-foreground ml-2 text-lg">
+                      {service.period}
+                    </span>
+                  </div>
+                </CardHeader>
+
+                <CardContent className="relative z-10 px-8 pb-8">
+                  {/* Features List */}
+                  <div className="space-y-4 mb-8">
+                    {service.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-center space-x-4">
+                        <div className={`w-3 h-3 rounded-full flex-shrink-0 ${
+                          isPopular 
+                            ? "bg-gradient-quantum shadow-neon" 
+                            : "bg-gradient-neon"
+                        }`} />
+                        <span className="text-foreground font-medium">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA Button */}
+                  <Button
+                    onClick={() => handleSelectPlan(service.id)}
+                    className={`w-full h-14 text-base font-semibold transition-all duration-300 group-hover:scale-105 ${
+                      isPopular
+                        ? "bg-gradient-quantum shadow-quantum hover:shadow-neon text-background"
+                        : "bg-gradient-primary hover:shadow-glow text-background"
+                    }`}
+                  >
+                    <Clock className="mr-3 h-5 w-5" />
+                    Get Started Now
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
           );
         })}
       </div>
 
-      <div className="mt-12 text-center">
-        <p className="text-muted-foreground">
-          All plans include quantum encryption and secure data processing
-        </p>
-        <p className="text-accent-cyan font-medium mt-2">
-          Need a custom solution? Contact our quantum specialists
+      {/* Footer Section */}
+      <div className="mt-20 text-center space-y-4">
+        <div className="flex items-center justify-center space-x-8 text-sm text-muted-foreground">
+          <div className="flex items-center space-x-2">
+            <Shield className="h-4 w-4 text-accent-cyan" />
+            <span>Enterprise-grade security</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Zap className="h-4 w-4 text-accent-neon" />
+            <span>99.9% uptime guarantee</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Clock className="h-4 w-4 text-accent-cyan" />
+            <span>24/7 quantum support</span>
+          </div>
+        </div>
+        <p className="text-accent-cyan font-medium text-lg">
+          Need a custom enterprise solution? Contact our quantum specialists
         </p>
       </div>
     </div>

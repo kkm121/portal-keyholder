@@ -71,19 +71,24 @@ export default {
 				'gradient-background': 'var(--gradient-background)',
 				'gradient-card': 'var(--gradient-card)',
 				'gradient-quantum': 'var(--gradient-quantum)',
-				'gradient-neon': 'var(--gradient-neon)'
+				'gradient-neon': 'var(--gradient-neon)',
+				'gradient-mesh': 'var(--gradient-mesh)'
 			},
 			backgroundColor: {
-				'glass': 'var(--glass-background)'
+				'glass': 'var(--glass-background)',
+				'glass-light': 'var(--glass-background-light)'
 			},
 			borderColor: {
-				'glass': 'var(--glass-border)'
+				'glass': 'var(--glass-border)',
+				'glass-light': 'var(--glass-border-light)'
 			},
 			boxShadow: {
 				'glow': 'var(--shadow-glow)',
 				'elegant': 'var(--shadow-elegant)',
 				'quantum': 'var(--shadow-quantum)',
-				'neon': 'var(--shadow-neon)'
+				'neon': 'var(--shadow-neon)',
+				'card': 'var(--shadow-card)',
+				'hover': 'var(--shadow-hover)'
 			},
 			transitionProperty: {
 				'smooth': 'var(--transition-smooth)'
