@@ -98,9 +98,9 @@ export const QuantumServices = () => {
               >
                 {/* Popular Badge */}
                 {isPopular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="bg-gradient-quantum px-4 py-2 rounded-full shadow-neon">
-                      <span className="text-background text-xs font-bold">Most Popular</span>
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                    <div className="bg-gradient-quantum px-6 py-2.5 rounded-full shadow-neon whitespace-nowrap">
+                      <span className="text-background text-xs font-bold tracking-wide">Most Popular</span>
                     </div>
                   </div>
                 )}

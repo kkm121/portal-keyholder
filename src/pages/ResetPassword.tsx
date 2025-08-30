@@ -83,11 +83,13 @@ const ResetPassword = () => {
 
   return (
     <div className="min-h-screen bg-gradient-background flex items-center justify-center p-4">
-      {/* Background decorative elements */}
+      {/* Dynamic Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-primary-glow/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-drift" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-primary-glow/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-shimmer" />
+        <div className="absolute top-20 left-20 w-32 h-32 bg-accent-cyan/10 rounded-full blur-2xl animate-pulse-glow" />
+        <div className="absolute bottom-20 right-20 w-48 h-48 bg-accent-neon/10 rounded-full blur-2xl animate-float" style={{ animationDelay: '2s' }} />
       </div>
       
       {/* Main content */}
