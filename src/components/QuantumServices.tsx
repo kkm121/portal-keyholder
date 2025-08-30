@@ -64,114 +64,116 @@ export const QuantumServices = () => {
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-16">
       {/* Header Section */}
-      <div className="text-center mb-20">
+      <div className="text-center mb-16">
         <div className="inline-flex items-center justify-center p-2 bg-glass-light border border-glass-light rounded-full mb-6">
           <span className="text-accent-cyan text-sm font-medium px-4 py-1">
             Quantum Computing Plans
           </span>
         </div>
-        <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-quantum bg-clip-text text-transparent leading-tight">
-          Choose Your<br />Quantum Journey
+        <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-quantum bg-clip-text text-transparent leading-tight">
+          Choose Your Quantum Journey
         </h2>
-        <p className="text-muted-foreground text-xl max-w-2xl mx-auto leading-relaxed">
+        <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
           Unlock the power of quantum computing with our cutting-edge service plans designed for every scale of innovation
         </p>
       </div>
 
-      {/* Plans Grid */}
-      <div className="grid lg:grid-cols-3 gap-8 lg:gap-6">
+      {/* Plans Grid - Perfect Alignment */}
+      <div className="grid lg:grid-cols-3 gap-6 items-stretch">
         {services.map((service, index) => {
           const Icon = service.icon;
           const isPopular = service.popular;
-          const isFirst = index === 0;
-          const isLast = index === services.length - 1;
           
           return (
             <div
               key={service.id}
-              className={`relative group ${isPopular ? 'lg:scale-105 lg:-mt-4' : ''}`}
+              className={`relative group h-full ${isPopular ? 'lg:scale-105' : ''}`}
             >
               <Card
-                className={`relative h-full bg-glass backdrop-blur-2xl border-glass shadow-card hover:shadow-hover transition-all duration-500 overflow-hidden ${
+                className={`relative h-full flex flex-col bg-glass backdrop-blur-2xl border-glass shadow-card hover:shadow-hover transition-all duration-500 overflow-hidden ${
                   isPopular 
-                    ? "border-accent-cyan shadow-quantum bg-gradient-mesh" 
+                    ? "border-accent-cyan shadow-quantum" 
                     : "hover:border-glass-light"
                 }`}
               >
                 {/* Popular Badge */}
                 {isPopular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="bg-gradient-quantum px-6 py-2 rounded-full shadow-neon">
-                      <span className="text-background text-sm font-bold">Most Popular</span>
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                    <div className="bg-gradient-quantum px-4 py-2 rounded-full shadow-neon">
+                      <span className="text-background text-xs font-bold">Most Popular</span>
                     </div>
                   </div>
                 )}
 
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className={`absolute inset-0 transition-opacity duration-500 ${
+                  isPopular 
+                    ? "bg-gradient-to-br from-accent-cyan/10 via-transparent to-accent-neon/10" 
+                    : "bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100"
+                }`} />
                 
-                <CardHeader className="relative z-10 text-center pt-8 pb-6">
+                <CardHeader className="relative z-10 text-center pt-8 pb-6 flex-shrink-0">
                   {/* Icon */}
                   <div className="mx-auto mb-6 relative">
-                    <div className={`p-4 rounded-2xl ${
+                    <div className={`p-3 rounded-xl ${
                       isPopular 
                         ? "bg-gradient-quantum shadow-neon" 
                         : "bg-gradient-primary"
                     } w-fit mx-auto`}>
-                      <Icon className="h-10 w-10 text-primary-foreground" />
+                      <Icon className="h-8 w-8 text-primary-foreground" />
                     </div>
                   </div>
 
                   {/* Plan Name */}
-                  <CardTitle className="text-2xl font-bold text-foreground mb-3">
+                  <CardTitle className="text-xl font-bold text-foreground mb-2">
                     {service.name}
                   </CardTitle>
                   
                   {/* Description */}
-                  <CardDescription className="text-muted-foreground text-base mb-6 min-h-[48px] flex items-center justify-center">
+                  <CardDescription className="text-muted-foreground text-sm mb-6 h-10 flex items-center justify-center px-2">
                     {service.description}
                   </CardDescription>
 
                   {/* Pricing */}
-                  <div className="flex items-baseline justify-center">
-                    <span className={`text-5xl font-bold ${
+                  <div className="flex items-baseline justify-center mb-6">
+                    <span className={`text-4xl font-bold ${
                       isPopular 
-                        ? "bg-gradient-quantum bg-clip-text text-transparent" 
-                        : "bg-gradient-primary bg-clip-text text-transparent"
+                        ? "text-accent-cyan" 
+                        : "text-foreground"
                     }`}>
                       {service.price}
                     </span>
-                    <span className="text-muted-foreground ml-2 text-lg">
+                    <span className="text-muted-foreground ml-1 text-base">
                       {service.period}
                     </span>
                   </div>
                 </CardHeader>
 
-                <CardContent className="relative z-10 px-8 pb-8">
-                  {/* Features List */}
-                  <div className="space-y-4 mb-8">
+                <CardContent className="relative z-10 px-6 pb-6 flex-grow flex flex-col">
+                  {/* Features List - Fixed Height */}
+                  <div className="space-y-3 mb-8 flex-grow">
                     {service.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-center space-x-4">
-                        <div className={`w-3 h-3 rounded-full flex-shrink-0 ${
+                      <div key={featureIndex} className="flex items-start space-x-3">
+                        <div className={`w-2 h-2 rounded-full flex-shrink-0 mt-2 ${
                           isPopular 
-                            ? "bg-gradient-quantum shadow-neon" 
-                            : "bg-gradient-neon"
+                            ? "bg-accent-cyan" 
+                            : "bg-accent-neon"
                         }`} />
-                        <span className="text-foreground font-medium">{feature}</span>
+                        <span className="text-foreground text-sm leading-relaxed">{feature}</span>
                       </div>
                     ))}
                   </div>
 
-                  {/* CTA Button */}
+                  {/* CTA Button - Always at bottom */}
                   <Button
                     onClick={() => handleSelectPlan(service.id)}
-                    className={`w-full h-14 text-base font-semibold transition-all duration-300 group-hover:scale-105 ${
+                    className={`w-full h-12 text-sm font-semibold transition-all duration-300 group-hover:scale-[1.02] flex-shrink-0 ${
                       isPopular
                         ? "bg-gradient-quantum shadow-quantum hover:shadow-neon text-background"
                         : "bg-gradient-primary hover:shadow-glow text-background"
                     }`}
                   >
-                    <Clock className="mr-3 h-5 w-5" />
+                    <Clock className="mr-2 h-4 w-4" />
                     Get Started Now
                   </Button>
                 </CardContent>
@@ -182,8 +184,8 @@ export const QuantumServices = () => {
       </div>
 
       {/* Footer Section */}
-      <div className="mt-20 text-center space-y-4">
-        <div className="flex items-center justify-center space-x-8 text-sm text-muted-foreground">
+      <div className="mt-16 text-center space-y-6">
+        <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
           <div className="flex items-center space-x-2">
             <Shield className="h-4 w-4 text-accent-cyan" />
             <span>Enterprise-grade security</span>
@@ -197,7 +199,7 @@ export const QuantumServices = () => {
             <span>24/7 quantum support</span>
           </div>
         </div>
-        <p className="text-accent-cyan font-medium text-lg">
+        <p className="text-accent-cyan font-medium text-base">
           Need a custom enterprise solution? Contact our quantum specialists
         </p>
       </div>
