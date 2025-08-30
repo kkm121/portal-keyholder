@@ -2,7 +2,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Cpu, Zap, Shield, Clock } from "lucide-react";
-
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 const services = [
   {
     id: "quantum-basic",
@@ -37,9 +38,27 @@ const services = [
 ];
 
 export const QuantumServices = () => {
-  const handleSelectPlan = (serviceId: string) => {
-    // This will be connected to Stripe payment processing
-    console.log("Selected plan:", serviceId);
+  const { toast } = useToast();
+
+  const handleSelectPlan = async (serviceId: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { planId: serviceId },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      } else {
+        throw new Error('No checkout URL returned');
+      }
+    } catch (err: any) {
+      console.error("Checkout error", err);
+      toast({
+        title: "Checkout failed",
+        description: err?.message || "Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

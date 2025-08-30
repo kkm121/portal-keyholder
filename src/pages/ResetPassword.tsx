@@ -17,7 +17,12 @@ const ResetPassword = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if we have an auth session from the reset link
+    const hash = window.location.hash || "";
+    // If we're in a recovery flow, Supabase will set the session from the hash shortly
+    if (hash.includes('type=recovery')) {
+      return;
+    }
+    // Otherwise ensure we have a session (e.g., when navigated manually)
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) {
         toast({

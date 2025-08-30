@@ -1,6 +1,14 @@
+import { useEffect } from "react";
 import { LoginForm } from "@/components/LoginForm";
 
 const Index = () => {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash.includes('type=recovery')) {
+      // Preserve the hash so Supabase can use the token
+      window.location.replace(`/reset-password${hash}`);
+    }
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-background flex items-center justify-center p-4">
       {/* Background decorative elements */}
