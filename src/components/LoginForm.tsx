@@ -5,8 +5,9 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { cleanupAuthState, recordSuccessfulSignIn, SignInProvider } from "@/utils/auth";
+import { SignUpDialog } from "@/components/SignUpDialog";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -48,25 +49,6 @@ export const LoginForm = () => {
     window.location.href = "/";
   };
 
-  const handleSignUp = async () => {
-    try {
-      setLoading(true);
-      cleanupAuthState();
-      await safeGlobalSignOut();
-      const redirectUrl = `${window.location.origin}/`;
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: redirectUrl },
-      });
-      if (error) throw error;
-      toast({ title: "Check your email", description: "Confirm your email to complete signup." });
-    } catch (err: any) {
-      toast({ title: "Signup failed", description: err?.message || "Please try again.", variant: "destructive" });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleOAuth = async (provider: 'google' | 'github') => {
     try {
@@ -91,7 +73,7 @@ export const LoginForm = () => {
         toast({ title: "Enter your email", description: "Provide your email above to reset password." });
         return;
       }
-      const redirectTo = `${window.location.origin}/`;
+      const redirectTo = `${window.location.origin}/reset-password`;
       const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
       if (error) throw error;
       toast({ title: "Email sent", description: "Check your inbox to reset password." });
@@ -250,9 +232,11 @@ export const LoginForm = () => {
         <div className="space-y-4">
           <p className="text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
-            <button onClick={handleSignUp} className="text-accent-cyan hover:text-accent-neon transition-smooth font-medium">
-              Sign up for Quantum Services
-            </button>
+            <SignUpDialog>
+              <button className="text-accent-cyan hover:text-accent-neon transition-smooth font-medium">
+                Sign up for Quantum Services
+              </button>
+            </SignUpDialog>
           </p>
           
           <div className="text-center">
