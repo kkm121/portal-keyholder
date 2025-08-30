@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { DynamicBackground } from "@/components/DynamicBackground";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,7 @@ import { ArrowLeft, Home } from "lucide-react";
 
 const NotFound = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.error(
@@ -25,11 +26,10 @@ const NotFound = () => {
             404
           </h1>
           <h2 className="text-3xl font-bold mb-4 text-foreground">
-            Quantum Portal Not Found
+            Signal Lost in the Quantum Field
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-md mx-auto">
-            The quantum pathway you're looking for has collapsed into an uncertain state. 
-            Let's navigate you back to reality.
+            Oops! The quantum entanglement seems to have gone awry. This portal doesn't exist in our dimension... yet.
           </p>
         </div>
         
@@ -45,14 +45,12 @@ const NotFound = () => {
           </Button>
           
           <Button 
-            asChild
+            onClick={() => navigate(-1)}
             variant="outline"
             className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70"
           >
-            <Link to="/" onClick={() => window.history.back()}>
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Go Back
-            </Link>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Go Back
           </Button>
         </div>
         

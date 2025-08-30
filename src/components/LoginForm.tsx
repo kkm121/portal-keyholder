@@ -8,12 +8,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { cleanupAuthState, recordSuccessfulSignIn, SignInProvider } from "@/utils/auth";
 import { SignUpDialog } from "@/components/SignUpDialog";
+import { VerifyEmailDialog } from "@/components/VerifyEmailDialog";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showVerifyDialog, setShowVerifyDialog] = useState(false);
 
   const safeGlobalSignOut = async () => {
     try {
@@ -31,6 +33,11 @@ export const LoginForm = () => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error || !data.user) {
+      // Check if it's an email verification error
+      if (error?.message?.includes('email_not_confirmed') || error?.message?.includes('Email not confirmed')) {
+        setShowVerifyDialog(true);
+        return;
+      }
       toast({
         title: "Login failed",
         description: error?.message || "Please check your credentials and try again.",
@@ -246,6 +253,12 @@ export const LoginForm = () => {
           </div>
         </div>
       </CardContent>
+      
+      <VerifyEmailDialog
+        isOpen={showVerifyDialog}
+        onClose={() => setShowVerifyDialog(false)}
+        email={email}
+      />
     </Card>
   );
 };
