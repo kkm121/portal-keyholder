@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import QuantumComputing from "./pages/QuantumComputing";
 import Research from "./pages/Research";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,7 @@ const App = () => {
             <Route path="/profile" element={user ? <Profile /> : <Index />} />
             <Route path="/quantum-computing" element={user ? <QuantumComputing /> : <Index />} />
             <Route path="/research" element={user ? <Research /> : <Index />} />
+            <Route path="/settings" element={user ? <Settings /> : <Index />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
