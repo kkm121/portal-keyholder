@@ -10,6 +10,9 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
+import QuantumComputing from "./pages/QuantumComputing";
+import Research from "./pages/Research";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +56,9 @@ const App = () => {
           <Routes>
             <Route path="/" element={user ? <Dashboard /> : <Index />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/profile" element={user ? <Profile /> : <Index />} />
+            <Route path="/quantum-computing" element={user ? <QuantumComputing /> : <Index />} />
+            <Route path="/research" element={user ? <Research /> : <Index />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

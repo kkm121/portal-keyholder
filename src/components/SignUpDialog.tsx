@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Eye, EyeOff, Mail, Lock, User, UserPlus } from "lucide-react";
+import { CalendarIcon, Eye, EyeOff, Mail, Lock, User, UserPlus, Building, Briefcase } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,6 +24,8 @@ export const SignUpDialog = ({ children }: SignUpDialogProps) => {
     name: "",
     email: "",
     password: "",
+    company: "",
+    role: "",
     dateOfBirth: undefined as Date | undefined,
   });
 
@@ -61,7 +63,9 @@ export const SignUpDialog = ({ children }: SignUpDialogProps) => {
         options: {
           emailRedirectTo: redirectUrl,
           data: {
-            name: formData.name,
+            full_name: formData.name,
+            company: formData.company,
+            role: formData.role,
             date_of_birth: formData.dateOfBirth.toISOString(),
           },
         },
@@ -75,7 +79,7 @@ export const SignUpDialog = ({ children }: SignUpDialogProps) => {
       });
       
       setOpen(false);
-      setFormData({ name: "", email: "", password: "", dateOfBirth: undefined });
+      setFormData({ name: "", email: "", password: "", company: "", role: "", dateOfBirth: undefined });
     } catch (error: any) {
       toast({
         title: "Sign up failed",
@@ -162,6 +166,40 @@ export const SignUpDialog = ({ children }: SignUpDialogProps) => {
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="company" className="text-sm font-medium">
+              Company <span className="text-muted-foreground">(Optional)</span>
+            </Label>
+            <div className="relative">
+              <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="company"
+                type="text"
+                placeholder="Enter your company name"
+                value={formData.company}
+                onChange={(e) => handleInputChange("company", e.target.value)}
+                className="pl-10 bg-secondary/50 border-glass backdrop-blur-sm"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="role" className="text-sm font-medium">
+              Job Title/Role <span className="text-muted-foreground">(Optional)</span>
+            </Label>
+            <div className="relative">
+              <Briefcase className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="role"
+                type="text"
+                placeholder="e.g., Data Scientist, CTO, Researcher"
+                value={formData.role}
+                onChange={(e) => handleInputChange("role", e.target.value)}
+                className="pl-10 bg-secondary/50 border-glass backdrop-blur-sm"
+              />
             </div>
           </div>
 

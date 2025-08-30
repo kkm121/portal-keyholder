@@ -7,6 +7,8 @@ import { LogOut, User as UserIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cleanupAuthState } from "@/utils/auth";
 import { DynamicBackground } from "@/components/DynamicBackground";
+import { ProfileMenu } from "@/components/ProfileMenu";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -76,19 +78,7 @@ const Dashboard = () => {
           </div>
           
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <UserIcon className="h-4 w-4" />
-              <span>{user.email}</span>
-            </div>
-            <Button 
-              onClick={handleSignOut}
-              variant="outline" 
-              size="sm"
-              className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </Button>
+            <ProfileMenu user={user} />
           </div>
         </div>
       </div>
@@ -103,6 +93,27 @@ const Dashboard = () => {
             Access cutting-edge quantum computing services tailored for your business needs. 
             Choose from our comprehensive service plans below.
           </p>
+        </div>
+        
+        {/* Navigation */}
+        <div className="mb-8">
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link to="/quantum-computing">
+              <Button variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
+                Learn About Quantum Computing
+              </Button>
+            </Link>
+            <Link to="/research">
+              <Button variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
+                Research & Innovation
+              </Button>
+            </Link>
+            <Link to="/profile">
+              <Button variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
+                Profile Settings
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <QuantumServices />
