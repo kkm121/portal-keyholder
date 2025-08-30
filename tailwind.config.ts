@@ -135,6 +135,35 @@ export default {
 				'shimmer': {
 					'0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
 					'50%': { opacity: '0.8', transform: 'scale(1.05)' }
+				},
+				'orbit': {
+					'0%': { transform: 'rotate(0deg) translateX(100px) rotate(0deg)' },
+					'100%': { transform: 'rotate(360deg) translateX(100px) rotate(-360deg)' }
+				},
+				'wave': {
+					'0%, 100%': { transform: 'translateY(0px) scale(1)' },
+					'25%': { transform: 'translateY(-20px) scale(1.1)' },
+					'50%': { transform: 'translateY(0px) scale(0.9)' },
+					'75%': { transform: 'translateY(20px) scale(1.1)' }
+				},
+				'morph': {
+					'0%, 100%': { 
+						transform: 'translateY(0px) scale(1)',
+						borderRadius: '50%' 
+					},
+					'33%': { 
+						transform: 'translateY(-30px) scale(1.2)',
+						borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' 
+					},
+					'66%': { 
+						transform: 'translateY(30px) scale(0.8)',
+						borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' 
+					}
+				},
+				'spiral': {
+					'0%': { transform: 'rotate(0deg) scale(0.5)' },
+					'50%': { transform: 'rotate(180deg) scale(1.2)' },
+					'100%': { transform: 'rotate(360deg) scale(0.5)' }
 				}
 			},
 			animation: {
@@ -144,7 +173,11 @@ export default {
 				'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
 				'rotate-slow': 'rotate-slow 20s linear infinite',
 				'drift': 'drift 15s ease-in-out infinite',
-				'shimmer': 'shimmer 8s ease-in-out infinite'
+				'shimmer': 'shimmer 8s ease-in-out infinite',
+				'orbit': 'orbit 25s linear infinite',
+				'wave': 'wave 12s ease-in-out infinite',
+				'morph': 'morph 18s ease-in-out infinite',
+				'spiral': 'spiral 14s ease-in-out infinite'
 			}
 		}
 	},
