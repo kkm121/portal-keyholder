@@ -8,11 +8,16 @@ import { useToast } from "@/hooks/use-toast";
 import { cleanupAuthState } from "@/utils/auth";
 import { DynamicBackground } from "@/components/DynamicBackground";
 import { ProfileMenu } from "@/components/ProfileMenu";
+import { QuantumVisualizer } from "@/components/QuantumVisualizer";
+import { InteractiveStats } from "@/components/InteractiveStats";
 import { Link } from "react-router-dom";
+import { useQuantumEffects, useQuantumInteractions } from "@/hooks/useQuantumEffects";
 
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
   const { toast } = useToast();
+  const { userPreferences } = useQuantumEffects();
+  const { handleQuantumClick, handleQuantumHover } = useQuantumInteractions();
 
   useEffect(() => {
     // Get current user
@@ -94,22 +99,50 @@ const Dashboard = () => {
             Choose from our comprehensive service plans below.
           </p>
         </div>
+
+        {/* Interactive Stats Dashboard */}
+        <div className="mb-12">
+          <h3 className="text-2xl font-semibold text-center mb-6 text-accent-cyan">
+            Your Quantum Journey
+          </h3>
+          <InteractiveStats />
+        </div>
+
+        {/* Quantum Visualizer */}
+        <div className="mb-12 max-w-md mx-auto">
+          <QuantumVisualizer />
+        </div>
         
         {/* Navigation */}
         <div className="mb-8">
           <div className="flex flex-wrap justify-center gap-4">
             <Link to="/quantum-computing">
-              <Button variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
+              <Button 
+                variant="outline" 
+                className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70 transition-all duration-300"
+                onClick={handleQuantumClick}
+                onMouseEnter={handleQuantumHover}
+              >
                 Learn About Quantum Computing
               </Button>
             </Link>
             <Link to="/research">
-              <Button variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
+              <Button 
+                variant="outline" 
+                className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70 transition-all duration-300"
+                onClick={handleQuantumClick}
+                onMouseEnter={handleQuantumHover}
+              >
                 Research & Innovation
               </Button>
             </Link>
             <Link to="/profile">
-              <Button variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
+              <Button 
+                variant="outline" 
+                className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70 transition-all duration-300"
+                onClick={handleQuantumClick}
+                onMouseEnter={handleQuantumHover}
+              >
                 Profile Settings
               </Button>
             </Link>

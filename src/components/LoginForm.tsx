@@ -9,6 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import { cleanupAuthState, recordSuccessfulSignIn, SignInProvider } from "@/utils/auth";
 import { SignUpDialog } from "@/components/SignUpDialog";
 import { VerifyEmailDialog } from "@/components/VerifyEmailDialog";
+import { useQuantumEffects, useQuantumInteractions } from "@/hooks/useQuantumEffects";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,6 +17,8 @@ export const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showVerifyDialog, setShowVerifyDialog] = useState(false);
+  const { playQuantumSound } = useQuantumEffects();
+  const { handleQuantumClick, handleQuantumHover } = useQuantumInteractions();
 
   const safeGlobalSignOut = async () => {
     try {
@@ -196,7 +199,9 @@ export const LoginForm = () => {
             type="submit"
             variant="primary"
             disabled={loading}
-            className="w-full bg-gradient-quantum shadow-quantum hover:shadow-neon transition-all duration-300"
+            className="w-full bg-gradient-quantum shadow-quantum hover:shadow-neon transition-all duration-300 hover:scale-105"
+            onClick={handleQuantumClick}
+            onMouseEnter={handleQuantumHover}
           >
             {loading ? 'Please wait…' : 'Access Quantum Portal'}
           </Button>
@@ -212,7 +217,17 @@ export const LoginForm = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <Button disabled={loading} onClick={() => handleOAuth('google')} variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
+          <Button 
+            disabled={loading} 
+            onClick={(e) => {
+              handleQuantumClick(e);
+              playQuantumSound('click');
+              handleOAuth('google');
+            }}
+            onMouseEnter={handleQuantumHover}
+            variant="outline" 
+            className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70 transition-all duration-300"
+          >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
@@ -233,7 +248,17 @@ export const LoginForm = () => {
             </svg>
             {loading ? 'Redirecting…' : 'Google'}
           </Button>
-          <Button disabled={loading} onClick={() => handleOAuth('github')} variant="outline" className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70">
+          <Button 
+            disabled={loading} 
+            onClick={(e) => {
+              handleQuantumClick(e);
+              playQuantumSound('click');
+              handleOAuth('github');
+            }}
+            onMouseEnter={handleQuantumHover}
+            variant="outline" 
+            className="bg-secondary/50 border-glass backdrop-blur-sm hover:bg-secondary/70 transition-all duration-300"
+          >
             <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
