@@ -1,7 +1,7 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/d5870cea-d35a-4248-bb6c-b1e0125f05b0
+**URL**: https://portal-keyholder.lovable.app/
 
 ## How can I edit this code?
 
