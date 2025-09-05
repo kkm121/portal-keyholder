@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { cleanupAuthState } from "@/utils/auth";
+import { VerifyEmailDialog } from "./VerifyEmailDialog";
 
 interface SignUpDialogProps {
   children: React.ReactNode;
@@ -20,6 +21,8 @@ export const SignUpDialog = ({ children }: SignUpDialogProps) => {
   const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showVerifyDialog, setShowVerifyDialog] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -57,7 +60,7 @@ export const SignUpDialog = ({ children }: SignUpDialogProps) => {
       }
 
       const redirectUrl = `${window.location.origin}/`;
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -71,16 +74,41 @@ export const SignUpDialog = ({ children }: SignUpDialogProps) => {
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        // Handle specific error cases
+        if (error.message.includes('User already registered')) {
+          toast({
+            title: "Account already exists",
+            description: "An account with this email already exists. Please sign in instead.",
+            variant: "destructive",
+          });
+          return;
+        }
+        throw error;
+      }
 
-      toast({
-        title: "Account created successfully!",
-        description: "Please check your email to confirm your account.",
-      });
-      
-      setOpen(false);
-      setFormData({ name: "", email: "", password: "", company: "", role: "", dateOfBirth: undefined });
+      // Check if user needs email confirmation
+      if (data?.user && !data?.user?.email_confirmed_at) {
+        setPendingEmail(formData.email);
+        setOpen(false);
+        setShowVerifyDialog(true);
+        setFormData({ name: "", email: "", password: "", company: "", role: "", dateOfBirth: undefined });
+        
+        toast({
+          title: "Check your email!",
+          description: "We've sent a verification link to your email. Please check your inbox and spam folder.",
+        });
+      } else if (data?.user?.email_confirmed_at) {
+        // User is already confirmed (rare case)
+        toast({
+          title: "Account created successfully!",
+          description: "Your account is ready to use.",
+        });
+        setOpen(false);
+        setFormData({ name: "", email: "", password: "", company: "", role: "", dateOfBirth: undefined });
+      }
     } catch (error: any) {
+      console.error('Signup error:', error);
       toast({
         title: "Sign up failed",
         description: error?.message || "Please try again.",
@@ -92,10 +120,11 @@ export const SignUpDialog = ({ children }: SignUpDialogProps) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          {children}
+        </DialogTrigger>
       <DialogContent className="sm:max-w-md bg-glass backdrop-blur-xl border-glass">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold bg-gradient-quantum bg-clip-text text-transparent flex items-center gap-2">
@@ -242,5 +271,12 @@ export const SignUpDialog = ({ children }: SignUpDialogProps) => {
         </form>
       </DialogContent>
     </Dialog>
+    
+    <VerifyEmailDialog 
+      isOpen={showVerifyDialog}
+      onOpenChange={setShowVerifyDialog}
+      email={pendingEmail}
+    />
+    </>
   );
 };
