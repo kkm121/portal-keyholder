@@ -62,33 +62,9 @@ export const useQuantumEffects = () => {
   }, [userStats.animationsEnabled]);
 
   const playQuantumSound = useCallback((type: 'hover' | 'click' | 'success' | 'error') => {
-    if (!userStats.soundEnabled) return;
-
-    // Create audio context for quantum-themed sounds
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    // Different frequencies for different interactions
-    const frequencies = {
-      hover: 800,
-      click: 1000,
-      success: 1200,
-      error: 400
-    };
-
-    oscillator.frequency.setValueAtTime(frequencies[type], audioContext.currentTime);
-    oscillator.type = 'sine';
-    
-    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.1);
-  }, [userStats.soundEnabled]);
+    // Sound effects disabled for better user experience
+    return;
+  }, []);
 
   const createRippleEffect = useCallback((event: React.MouseEvent<HTMLElement>) => {
     if (!userStats.animationsEnabled) return;

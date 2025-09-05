@@ -14,19 +14,9 @@ export const InteractiveStats: React.FC = () => {
   const { handleQuantumClick, handleQuantumHover } = useQuantumInteractions();
 
   useEffect(() => {
-    // Simulate some usage stats for demo
-    const interval = setInterval(() => {
-      setStats(prev => {
-        const updated = {
-          ...prev,
-          servicesUsed: prev.servicesUsed + Math.floor(Math.random() * 2),
-          timeSpent: prev.timeSpent + Math.floor(Math.random() * 1000),
-        };
-        return updated;
-      });
-    }, 5000);
-
-    return () => clearInterval(interval);
+    // Load stats from localStorage on mount
+    const savedStats = getUserStats();
+    setStats(savedStats);
   }, []);
 
   const formatTime = (milliseconds: number) => {
